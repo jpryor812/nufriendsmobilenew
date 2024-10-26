@@ -4,7 +4,7 @@ import { Link } from "expo-router";
 export default function AboutScreen() {
   return (
     <View style={styles.container}>
-            <Text>About</Text>
+            <Text>About Page</Text>
     <Link href={"/"} style={styles.button}>
       Home
     </Link>
