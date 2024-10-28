@@ -10,6 +10,9 @@ export default function Index() {
     <Link href={"/about"} style={styles.button}>
       About
     </Link>
+    <Link href={"/HomePage"} style={styles.button}>
+      Home
+    </Link>
     </View>
   );
 }

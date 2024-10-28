@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, Modal, FlatList, StyleSheet } from 'react-native';
 
 interface Option {
@@ -14,8 +14,17 @@ interface DropdownProps {
 
 const Dropdown: React.FC<DropdownProps> = ({ options, selectedValue, onSelect }) => {
   const [visible, setVisible] = useState(false);
+  const [dropdownTop, setDropdownTop] = useState(0);
+  const [dropdownLeft, setDropdownLeft] = useState(0);
+  const buttonRef = useRef<View>(null);
 
   const toggleDropdown = () => {
+    if (buttonRef.current) {
+      buttonRef.current.measure((fx, fy, width, height, px, py) => {
+        setDropdownTop(py + height);
+        setDropdownLeft(px + width / 3 - (width * 0.65) / 2); // Center the dropdown
+      });
+    }
     setVisible(!visible);
   };
 
@@ -30,7 +39,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options, selectedValue, onSelect })
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={toggleDropdown}>
+      <TouchableOpacity ref={buttonRef} style={styles.button} onPress={toggleDropdown}>
         <Text style={styles.buttonText}>
           {options.find(option => option.value === selectedValue)?.label || 'Select option'}
         </Text>
@@ -41,7 +50,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options, selectedValue, onSelect })
           style={styles.overlay} 
           onPress={() => setVisible(false)}
         >
-          <View style={styles.dropdown}>
+          <View style={[styles.dropdown, { top: dropdownTop, left: dropdownLeft }]}>
             <FlatList
               data={options}
               renderItem={renderItem}
@@ -58,14 +67,15 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     marginLeft: 10,
-    marginBottom: 20,
-    marginTop: 10
+    marginBottom: 10,
+    marginTop: 2,
+    alignItems: 'center',
   },
   button: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
-    height: 40,
+    height: 30,
     width: '50%',
     paddingHorizontal: 10,
     zIndex: 1,
@@ -75,6 +85,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     flex: 1,
+    fontWeight: 'bold',
   },
   icon: {
     marginLeft: 10,
@@ -86,13 +97,12 @@ const styles = StyleSheet.create({
   dropdown: {
     position: 'absolute',
     backgroundColor: '#fff',
-    top: 120,  // Adjust as needed
-    right: 20,  // Adjust as needed
     width: '50%',
     shadowColor: '#000000',
     shadowRadius: 4,
     shadowOffset: { height: 4, width: 0 },
     shadowOpacity: 0.5,
+    borderRadius: 10,
   },
   item: {
     paddingHorizontal: 10,

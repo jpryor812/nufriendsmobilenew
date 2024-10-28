@@ -8,7 +8,7 @@ export default function Card({ children, style = {} }: CardProps) {
   return (
     <View
       style={{
-        padding: 15,
+        padding: 10,
         borderRadius: 15,
         backgroundColor: "white",
         elevation: 8,
@@ -16,6 +16,9 @@ export default function Card({ children, style = {} }: CardProps) {
         shadowRadius: 8,
         shadowOffset: { height: 6, width: 0 },
         shadowOpacity: 0.15,
+        width: '94%',
+        alignSelf: 'center',
+        marginTop: 10,
         ...style,
       }}
     >

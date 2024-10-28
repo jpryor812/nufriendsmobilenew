@@ -78,13 +78,14 @@ export default function MessagesChart() {
 
     // Calculate the Y position for the average line
     const getAverageLinePosition = () => {
-        const chartHeight = 250; // This should match your chart height
-        const maxValue = 200;    // This should match your chart maxValue
+        const chartHeight = 200; // This should match your chart height
+        const maxValue = 150;    // This should match your chart maxValue
         return chartHeight - (weeklyAverage / maxValue * chartHeight);
     };
 
     return (
         <Card style={styles.container}>
+            <Text style={styles.title}>Messages Sent</Text>
             <View style={styles.header}>
                 <Text style={styles.weekText}>{getWeekDateRange(currentWeek)}</Text>
                 <View style={styles.navigation}>
@@ -108,15 +109,15 @@ export default function MessagesChart() {
                     <BarChart 
                         data={chartData}
                         barBorderRadius={5}
-                        noOfSections={4}
+                        noOfSections={3}
                         yAxisThickness={0}
                         xAxisThickness={0}
                         yAxisTextStyle={{color: "gray"}}
                         isAnimated
                         animationDuration={300}
-                        maxValue={200}
+                        maxValue={150}
                         width={300}
-                        height={200}
+                        height={150}
                         barWidth={20}
                         spacing={15}
                         hideRules
@@ -147,6 +148,11 @@ const styles = StyleSheet.create({
     },
     weekText: {
         fontSize: 15,
+        fontWeight: 'bold',
+        color: '#808080',
+    },
+    title: {
+        fontSize: 12,
         fontWeight: 'bold',
         color: '#808080',
     },

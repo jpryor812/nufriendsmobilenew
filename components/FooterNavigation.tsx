@@ -1,25 +1,26 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Link } from "expo-router";
 
 const FooterNavigation = () => {
   return (
     <View style={styles.footer}>
-      <TouchableOpacity style={styles.footerItem}>
-        <Image source={require('../assets/images/profile_icon.png')} style={styles.icon} />
-        <Text style={styles.footerText}>Profile</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.footerItem}>
-        <Image source={require('../assets/images/mail_progress_bar.png')} style={styles.mailicon} />
-        <Text style={styles.footerText}>Messages</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.footerItem}>
+      <Link href={"/HomePage"} 
+      style={styles.footerItem}>
+        <Image source={require('../assets/images/house_emoji.png')} style={styles.icon} />
+      </Link>
+      <Link href={"/ProfilePage"}
+      style={styles.footerItem}>
+        <Image source={require('../assets/images/profile_picture.jpg')} style={styles.profileicon} />
+      </Link>
+      <Link href={"/FriendPage"}
+      style={styles.footerItem}>
         <Image source={require('../assets/images/hand_progress_bar.png')} style={styles.icon} />
-        <Text style={styles.footerText}>Friends</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.footerItem}>
+      </Link>
+      <Link href={"/HomePage"} 
+      style={styles.footerItem}>
         <Image source={require('../assets/images/yu_progress_bar.png')} style={styles.Yuicon} />
-        <Text style={styles.footerText}>Yu</Text>
-      </TouchableOpacity>
+      </Link>
     </View>
   );
 };
@@ -29,33 +30,32 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    borderTopWidth: 3,
+    borderTopWidth: 2,
     borderTopColor: '#e0e0e0',
-    paddingVertical: 12,
   },
   footerItem: {
     alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
   },
   icon: {
-    width: 34,
-    height: 34,
-    marginBottom: 4,
+    width: 30,
+    height: 30,
+    marginBottom: 1,
+
+  },
+  profileicon: {
+    width: 30,
+    height: 30,
+    marginBottom: 1,
+    borderRadius: 50,
   },
   Yuicon: {
-    width: 40,
-    height: 40,
-    marginBottom: 4,
-  },
-  mailicon: {
-    width: 40,
-    height: 30,
-    marginBottom: 4,
-  },
-  
-  footerText: {
-    marginTop: 6,
-    fontSize: 12,
-  },
+    width: 34,
+    height: 34,
+    marginBottom: 1,
+  },  
 });
 
 export default FooterNavigation;

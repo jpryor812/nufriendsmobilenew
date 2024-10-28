@@ -1,0 +1,139 @@
+import React from 'react';
+import { View, Text, FlatList, StyleSheet, Image, ImageSourcePropType } from 'react-native';
+
+const profileIcon = require('../assets/images/profile_picture.jpg');
+
+interface User {
+  avatar?: string | ImageSourcePropType;
+  initials: string;
+}
+
+interface Message {
+  id: string;
+  userId: string;
+  text: string;
+  timestamp: string;
+}
+
+const users: { [key: string]: User } = {
+  'Jpp123': {
+    avatar: require('../assets/images/profile_picture.jpg'),
+    initials: 'JP'
+  }
+};
+
+const messages: Message[] = [
+  { id: '1', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
+  { id: '2', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
+  { id: '3', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
+  { id: '4', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
+  { id: '5', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
+  { id: '6', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
+  { id: '7', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
+  { id: '8', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
+  { id: '9', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
+];
+
+interface AvatarProps {
+  userId: string;
+}
+
+const Avatar: React.FC<AvatarProps> = ({ userId }) => {
+  const user = users[userId];
+  return (
+    <View style={styles.avatarContainer}>
+      {user.avatar ? (
+        <Image 
+          source={typeof user.avatar === 'string' ? { uri: user.avatar } : user.avatar} 
+          style={styles.avatarImage} 
+        />
+      ) : (
+        <Text style={styles.avatarText}>{user.initials}</Text>
+      )}
+    </View>
+  );
+};
+
+interface MessageItemProps {
+  item: Message;
+}
+
+const MessageItem: React.FC<MessageItemProps> = ({ item }) => (
+  <View style={styles.messageContainer}>
+    <Avatar userId={item.userId} />
+    <View style={styles.textContainer}>
+      <Text style={styles.username}>{item.userId}</Text>
+      <Text style={styles.messageText} numberOfLines={2} ellipsizeMode="tail">
+        {item.text}
+      </Text>
+    </View>
+    <Text style={styles.timestamp}>{item.timestamp}</Text>
+  </View>
+);
+
+const MessageList: React.FC = () => (
+  <View style={styles.container}>
+    <Text style={styles.header}>Messages</Text>
+    <FlatList
+      data={messages}
+      renderItem={({ item }) => <MessageItem item={item} />}
+      keyExtractor={item => item.id}
+    />
+  </View>
+);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  header: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    padding: 15,
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+  },
+  messageContainer: {
+    flexDirection: 'row',
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e1e1e1',
+  },
+  avatarContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#3498db',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  avatarText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  avatarImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
+  textContainer: {
+    flex: 1,
+  },
+  username: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+    fontSize: 16,
+  },
+  messageText: {
+    color: '#333',
+    fontSize: 15,
+  },
+  timestamp: {
+    fontSize: 12,
+    color: '#999',
+    alignSelf: 'flex-start',
+  },
+});
+
+export default MessageList;

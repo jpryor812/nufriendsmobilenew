@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import MessageAchievement from './MessageAchievement';
 import StreakAchievement from './StreakAchievement';
 import MutualFriendAchievement from './MutualFriendAchievement';
 
 const AchievementsSection = () => {
   return (
+    <View>
+    <Text style={styles.header}>Achievements</Text>
     <View style={styles.achievementsContainer}>
       {/* Messages Row */}
       <View style={styles.achievementsRow}>
@@ -28,6 +30,7 @@ const AchievementsSection = () => {
         <MutualFriendAchievement friends={10} handCount={3} isLocked={true} />
       </View>
     </View>
+    </View>
   );
 };
 const styles = StyleSheet.create({
@@ -42,6 +45,12 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       marginVertical: 8,
+    },
+    header: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      marginTop: 5,
     },
   });
 

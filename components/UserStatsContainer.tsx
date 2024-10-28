@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 
+//update messages sent this week number to update when the week in the chart changes
 const StatsBar = () => {
   const stats = [
     { number: '34', label: 'New Friends This Month' },
     { number: '139', label: 'Total Friends' },
-    { number: '422', label: 'Messages Sent This Month' },
+    { number: '422', label: 'Messages Sent This Week' },
     { number: '1,698', label: 'Total Messages Sent' },
   ];
 

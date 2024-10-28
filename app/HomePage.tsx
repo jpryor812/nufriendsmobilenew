@@ -1,9 +1,9 @@
 import React from 'react';
-import { SafeAreaView, View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { SafeAreaView, View, StyleSheet, Text } from 'react-native';
 import HeaderButtons from '../components/HeaderButtons';
 import MessageList from '../components/MessagesList';
 import FooterNavigation from '../components/FooterNavigation';
-import ProfilePage from './ProfilePage';
+import { Link } from "expo-router";
 
 // Add type for navigation if using TypeScript
 const HomePage = () => {
@@ -27,12 +27,15 @@ const HomePage = () => {
         onPressUpgrade={handleUpgrade}
       />
       <View style={styles.introContainer}>
+        <Link href={"/OnboardingPage1"} style={styles.seeMoreLink}>
+          <Text style={styles.seeMore}>Onboarding</Text>
+        </Link>
         <Text style={styles.welcomeBackMessage}>
           Welcome back, Justin! You've made 4 new friends and sent 123 messages this week!
         </Text>
-        <TouchableOpacity >
+        <Link href={"/ProfilePage"} style={styles.seeMoreLink}>
           <Text style={styles.seeMore}>See More</Text>
-        </TouchableOpacity>
+        </Link>
       </View>    
       <View style={styles.messageContainer}>
         <MessageList />
@@ -57,12 +60,14 @@ const styles = StyleSheet.create({
     color: '#9d9d9d',
     marginTop: 10,
   },
+  seeMoreLink: {
+    alignSelf: 'flex-end',
+  },
   seeMore: {
     textDecorationLine: 'underline',
     fontSize: 13,
     color: '#9d9d9d',
-    alignSelf: 'flex-end',
-    marginBottom: 5
+    marginBottom: 5,
   },
   messageContainer: {
     flex: 1,
