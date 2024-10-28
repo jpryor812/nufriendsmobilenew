@@ -1,10 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  achievementContainerAndLine: {
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
   achievementContainer: {
     width:90,
     height: 95,
@@ -20,13 +16,6 @@ const styles = StyleSheet.create({
   },
   achievementLocked: {
     borderColor: '#dedede',
-  },
-  verticalLine: {
-    width: 2,
-    height: 40,
-    backgroundColor: '#e5e5e5',
-    marginTop: -8,
-    marginBottom: 8,
   },
   trophyIcon: {
     position: 'absolute',

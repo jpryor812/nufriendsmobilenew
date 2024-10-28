@@ -2,15 +2,19 @@ import React, { ReactNode } from 'react';
 import { View, Image } from 'react-native';
 import styles from './AchievementsStyles';  
 
-// Define the props interface
 interface AchievementContainerProps {
   children: ReactNode;
   isLocked: boolean;
+  // Add this prop to control whether to show the line
+  showLine?: boolean; 
 }
 
-const AchievementContainer: React.FC<AchievementContainerProps> = ({ children, isLocked }) => {
+const AchievementContainer: React.FC<AchievementContainerProps> = ({ 
+  children, 
+  isLocked,
+  showLine = true // Default to true unless specified otherwise
+}) => {
   return (
-    <View style={styles.achievementContainerAndLine}>
       <View style={[
         styles.achievementContainer,
         isLocked ? styles.achievementLocked : styles.achievementSuccess
@@ -23,8 +27,6 @@ const AchievementContainer: React.FC<AchievementContainerProps> = ({ children, i
         )}
         {children}
       </View>
-      <View style={styles.verticalLine} />
-    </View>
   );
 };
 
