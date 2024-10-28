@@ -1,23 +1,29 @@
 import React, { useRef, useEffect } from 'react';
 import { View, ScrollView, Text, StyleSheet, Animated } from 'react-native';
+
 interface Message {
   id: string;
   text: string;
   isSent: boolean;
   opacity?: Animated.Value;
 }
+
 interface MessageContainerProps {
   messages: Message[];
   style?: object;
 }
+
 const MessageContainer: React.FC<MessageContainerProps> = ({ messages, style }) => {
   const scrollViewRef = useRef<ScrollView>(null);
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
   const scrollToBottom = () => {
     scrollViewRef.current?.scrollToEnd({ animated: true });
   };
+
   return (
     <View style={[styles.container, style]}>
       <ScrollView 
@@ -58,6 +64,8 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ messages, style }) 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    borderWidth: 2,
+    borderColor: '#EBF7FE',
   },
   scrollContent: {
     paddingVertical: 8,

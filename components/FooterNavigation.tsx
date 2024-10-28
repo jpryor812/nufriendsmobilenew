@@ -17,7 +17,7 @@ const FooterNavigation = () => {
       style={styles.footerItem}>
         <Image source={require('../assets/images/hand_progress_bar.png')} style={styles.icon} />
       </Link>
-      <Link href={"/HomePage"} 
+      <Link href={"/MessagingYu"} 
       style={styles.footerItem}>
         <Image source={require('../assets/images/yu_progress_bar.png')} style={styles.Yuicon} />
       </Link>
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     borderTopWidth: 2,
-    borderTopColor: '#e0e0e0',
+    borderTopColor: '#EBF7FE',
   },
   footerItem: {
     alignItems: 'center',

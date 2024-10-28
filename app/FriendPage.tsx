@@ -3,6 +3,7 @@ import { View, Text, ScrollView, Image, StyleSheet, SafeAreaView } from 'react-n
 import Dropdown from '../components/DropdownMenu';
 import FooterNavigation from '../components/FooterNavigation';
 import HeaderButtons from '@/components/HeaderButtons';
+import { Link } from "expo-router";
 
 const profileIcon = require('../assets/images/profile_picture.jpg');
 
@@ -38,10 +39,10 @@ const FriendPage: React.FC = () => {
   const [primaryDataLabel, setPrimaryDataLabel] = useState('messages');
   const [friends, setFriends] = useState([
     { id: 1, initials: 'JP', name: 'Jpp123', messages: 1456, daysAsFriends: 120, streak: 9, mutualFriends: 10 },
-    { id: 2, initials: 'JP', name: 'Jpp123', messages: 964, daysAsFriends: 90, streak: 5, mutualFriends: 8 },
-    { id: 3, initials: 'JP', name: 'Jpp123', messages: 456, daysAsFriends: 60, streak: 0, mutualFriends: 5 },
-    { id: 4, initials: 'JP', name: 'Jpp123', messages: 356, daysAsFriends: 30, streak: 4, mutualFriends: 3 },
-    { id: 5, initials: 'JP', name: 'Jpp123', messages: 138, daysAsFriends: 15, streak: 2, mutualFriends: 2 },
+    { id: 2, initials: 'JP', name: 'App123', messages: 964, daysAsFriends: 90, streak: 5, mutualFriends: 8 },
+    { id: 3, initials: 'JP', name: 'Bpp123', messages: 456, daysAsFriends: 60, streak: 0, mutualFriends: 5 },
+    { id: 4, initials: 'JP', name: 'Zpp123', messages: 356, daysAsFriends: 30, streak: 4, mutualFriends: 3 },
+    { id: 5, initials: 'JP', name: 'Xpp123', messages: 138, daysAsFriends: 15, streak: 2, mutualFriends: 2 },
   ]);
 
   const sortOptions = [
@@ -52,7 +53,9 @@ const FriendPage: React.FC = () => {
     { label: 'Longest active streaks', value: 'longestStreaks' },
     { label: 'Mutual friends (Most)', value: 'mutualFriendsMost' },
     { label: 'Mutual friends (Least)', value: 'mutualFriendsLeast' },
-  ];
+    { label: 'Name (A-Z)', value: 'nameAZ' },       
+    { label: 'Name (Z-A)', value: 'nameZA' } 
+];
 
   const sortFriends = (option: string) => {
     let sortedFriends = [...friends];
@@ -78,6 +81,13 @@ const FriendPage: React.FC = () => {
         sortedFriends.sort((a, b) => option === 'mutualFriendsMost' ? b.mutualFriends - a.mutualFriends : a.mutualFriends - b.mutualFriends);
         newPrimaryDataLabel = 'mutual friends';
         break;
+      case 'nameAZ':
+      case 'nameZA':
+        sortedFriends.sort((a, b) => {
+        const comparison = a.name.localeCompare(b.name);
+        return option === 'nameAZ' ? comparison : -comparison;});
+              newPrimaryDataLabel = primaryDataLabel; // Keep the current primary data label
+              break;  
     }
     setFriends(sortedFriends);
     setPrimaryDataLabel(newPrimaryDataLabel);
@@ -139,18 +149,19 @@ const styles = StyleSheet.create({
   },
   friendItem: {
     flexDirection: 'row',
-    alignItems: 'center',
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 10,
-    marginTop: 10,
-    padding: 50,
+    alignContent: 'center',
+    justifyContent: 'center',
+    borderColor: '#F8FCFF',
+    borderBottomWidth: 3,
+    width: '92%',
+    alignSelf: 'center',
   },
   avatarContainer: {
     position: 'relative',
     marginRight: 10,
-    marginLeft: 10,
+    marginLeft: 4,
+    marginBottom: 12,
+    marginTop: 12,
   },
   fireEmoji: {
     position: 'absolute',
@@ -166,6 +177,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flex: 1,
+    justifyContent: 'center',
   },
   name: {
     fontSize: 18,

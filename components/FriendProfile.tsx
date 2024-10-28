@@ -27,23 +27,21 @@ const FriendProfile: React.FC<FriendProfileProps> = ({ imageSource, name, onPres
 
 const styles = StyleSheet.create({
   friend_profile_container: {
-    flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'flex-start',
     flexDirection: 'row',
-    marginTop: -30,
   },
   friendContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   profilePicture: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginRight: 8,
+    marginRight: 2,
   },
   profileNameText: {
     fontSize: 22,
