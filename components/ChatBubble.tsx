@@ -6,6 +6,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 interface ChatBubbleProps {
   text: string;
   small?: boolean;
+  style?: any;
 }
 
 const ChatBubble: React.FC<ChatBubbleProps> = ({ text, small = false }) => {
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
     borderWidth: 2,
-    borderColor: '#42ade2',
+    borderColor: '#bbb',
     padding: 20,
     width: '100%',
     shadowColor: '#000',
@@ -44,13 +45,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   chatBubbleText: {
-    fontSize: SCREEN_WIDTH * 0.05,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#42ade2',
   },
   smallText: {
-    fontSize: SCREEN_WIDTH * 0.04,
+    fontSize: 20
   },
   chatBubbleArrow: {
     width: 0,
@@ -62,7 +63,8 @@ const styles = StyleSheet.create({
     borderTopWidth: 15,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
-    borderTopColor: '#42ade2',
+    borderBottomColor: '#fff',
+    borderTopColor: '#fff',
     alignSelf: 'center',
     marginTop: -2,
   },

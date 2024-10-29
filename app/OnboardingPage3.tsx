@@ -4,7 +4,7 @@ import ProgressBar from '../components/ProgressBar';
 import BigYuOnboarding from '../components/BigYuOnboarding';
 import { Link } from 'expo-router';
 
-const OnboardingPage1 = () => (
+const OnboardingPage3 = () => (
   <View style={styles.appContainer}>
     <ProgressBar progress={15} />
     <BigYuOnboarding text="I'm Your Little Companion to Help You Through Conversations if Needed." />
@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OnboardingPage1;
+export default OnboardingPage3;
