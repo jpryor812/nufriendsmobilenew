@@ -15,6 +15,8 @@ export default function RootLayout() {
       options={{ headerShown: false }} />
       <Stack.Screen name="MessagingYu"
       options={{ headerShown: false }} />
+      <Stack.Screen name="ChatRoom"
+      options={{ headerShown: false }} />
       <Stack.Screen name="OnboardingPage1"
       options={{ headerShown: false }} />
       <Stack.Screen name="OnboardingPage2"

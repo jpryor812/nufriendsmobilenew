@@ -1,7 +1,10 @@
-import React, { useRef } from 'react';
-import { View, ScrollView, Text, StyleSheet, Animated } from 'react-native';
+import React, { useRef, useEffect, useState } from 'react';
+import { View, ScrollView, Text, StyleSheet, Animated, Keyboard, Platform, Dimensions } from 'react-native';
 
-// Simplified Message interface
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+const DEFAULT_HEIGHT = SCREEN_HEIGHT * 0.7; // 70% of screen height
+const KEYBOARD_HEIGHT = SCREEN_HEIGHT * 0.4; // Approximate keyboard height
+
 interface Message {
   id: string;
   text: string;
@@ -16,8 +19,46 @@ interface MessageContainerProps {
 
 const MessageContainer: React.FC<MessageContainerProps> = ({ messages = [], style }) => {
   const scrollViewRef = useRef<ScrollView>(null);
+  const containerHeight = useRef(new Animated.Value(DEFAULT_HEIGHT)).current;
 
-  // Simple function to render a single message
+  useEffect(() => {
+    // Scroll to bottom when new messages arrive
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollToEnd({ animated: true });
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    const keyboardWillShow = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      (event) => {
+        Animated.timing(containerHeight, {
+          toValue: KEYBOARD_HEIGHT,
+          duration: event.duration || 250,
+          useNativeDriver: false,
+        }).start(() => {
+          scrollViewRef.current?.scrollToEnd({ animated: true });
+        });
+      }
+    );
+
+    const keyboardWillHide = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      (event) => {
+        Animated.timing(containerHeight, {
+          toValue: DEFAULT_HEIGHT,
+          duration: event.duration || 250,
+          useNativeDriver: false,
+        }).start();
+      }
+    );
+
+    return () => {
+      keyboardWillShow.remove();
+      keyboardWillHide.remove();
+    };
+  }, []);
+
   const renderMessage = (message: Message) => (
     <View
       key={message.id}
@@ -45,10 +86,15 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ messages = [], styl
   );
 
   return (
-    <View style={[styles.container, style]}>
+    <Animated.View style={[styles.container, style, { height: containerHeight }]}>
       <ScrollView 
         ref={scrollViewRef}
         contentContainerStyle={styles.scrollContent}
+        onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+        showsVerticalScrollIndicator={true}
+        bounces={true}
+        alwaysBounceVertical={true}
+        scrollEventThrottle={16}
       >
         {Array.isArray(messages) && messages.length > 0 ? (
           messages.map(renderMessage)
@@ -58,22 +104,23 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ messages = [], styl
           </View>
         )}
       </ScrollView>
-    </View>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     borderWidth: 2,
     borderColor: '#EBF7FE',
   },
   scrollContent: {
     paddingVertical: 8,
+    flexGrow: 1, // Add this
+    justifyContent: 'flex-end',
   },
   messageWrapper: {
     flexDirection: 'row',
-    padding: 10,
+    padding: 8,
   },
   sentWrapper: {
     justifyContent: 'flex-end',
@@ -96,6 +143,8 @@ const styles = StyleSheet.create({
   },
   messageText: {
     fontSize: 16,
+    padding: 4,
+    alignItems: 'center',
   },
   sentText: {
     color: '#F1F3F5',
@@ -107,11 +156,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: 10,
   },
   emptyText: {
     color: '#999',
     fontSize: 16,
+    alignItems: 'center',
   },
 });
 

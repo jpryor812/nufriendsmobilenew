@@ -17,7 +17,7 @@ const FooterNavigation = () => {
       style={styles.footerItem}>
         <Image source={require('../assets/images/hand_progress_bar.png')} style={styles.icon} />
       </Link>
-      <Link href={"/MessagingYu"} 
+      <Link href={"/ChatRoom"} 
       style={styles.footerItem}>
         <Image source={require('../assets/images/yu_progress_bar.png')} style={styles.Yuicon} />
       </Link>
