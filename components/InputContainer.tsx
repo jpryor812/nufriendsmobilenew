@@ -73,7 +73,7 @@ const InputContainer: React.FC<InputContainerProps> = ({ onSendMessage, onHeight
         style={[
           styles.inputContainer, 
           { 
-            height: inputHeight + 20,
+            height: inputHeight, 
             bottom: inputContainerPosition.interpolate({
               inputRange: [-SCREEN_HEIGHT, 0],
               outputRange: ['0%', '2%'],

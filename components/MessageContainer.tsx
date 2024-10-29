@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { View, ScrollView, Text, StyleSheet, Animated } from 'react-native';
 
+// Simplified Message interface
 interface Message {
   id: string;
   text: string;
@@ -13,16 +14,35 @@ interface MessageContainerProps {
   style?: object;
 }
 
-const MessageContainer: React.FC<MessageContainerProps> = ({ messages, style }) => {
+const MessageContainer: React.FC<MessageContainerProps> = ({ messages = [], style }) => {
   const scrollViewRef = useRef<ScrollView>(null);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const scrollToBottom = () => {
-    scrollViewRef.current?.scrollToEnd({ animated: true });
-  };
+  // Simple function to render a single message
+  const renderMessage = (message: Message) => (
+    <View
+      key={message.id}
+      style={[
+        styles.messageWrapper,
+        message.isSent ? styles.sentWrapper : styles.receivedWrapper,
+      ]}
+    >
+      <View
+        style={[
+          styles.messageBubble,
+          message.isSent ? styles.sentBubble : styles.receivedBubble,
+        ]}
+      >
+        <Text
+          style={[
+            styles.messageText,
+            message.isSent ? styles.sentText : styles.receivedText,
+          ]}
+        >
+          {message.text}
+        </Text>
+      </View>
+    </View>
+  );
 
   return (
     <View style={[styles.container, style]}>
@@ -30,32 +50,13 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ messages, style }) 
         ref={scrollViewRef}
         contentContainerStyle={styles.scrollContent}
       >
-        {messages.map((message) => (
-          <Animated.View
-            key={message.id}
-            style={[
-              styles.messageWrapper,
-              message.isSent ? styles.sentWrapper : styles.receivedWrapper,
-              { opacity: message.opacity || 1 },
-            ]}
-          >
-            <View
-              style={[
-                styles.messageBubble,
-                message.isSent ? styles.sentBubble : styles.receivedBubble,
-              ]}
-            >
-              <Text
-                style={[
-                  styles.messageText,
-                  message.isSent ? styles.sentText : styles.receivedText,
-                ]}
-              >
-                {message.text}
-              </Text>
-            </View>
-          </Animated.View>
-        ))}
+        {Array.isArray(messages) && messages.length > 0 ? (
+          messages.map(renderMessage)
+        ) : (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>No messages yet</Text>
+          </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -101,6 +102,16 @@ const styles = StyleSheet.create({
   },
   receivedText: {
     color: '#000',
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  emptyText: {
+    color: '#999',
+    fontSize: 16,
   },
 });
 
