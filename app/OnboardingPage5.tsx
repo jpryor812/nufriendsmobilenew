@@ -6,7 +6,7 @@ import ChatBubble from '../components/ChatBubble';
 import BigYuSearching from '../components/BigYuSearching';
 import SearchingBubble from '../components/SearchingBubble';
 import OnboardingFriendListAnimation from '../components/OnboardingFriendListAnimation';
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -24,6 +24,8 @@ const OnboardingPage5 = () => {
   const [showList, setShowList] = useState(false); // Define showList state
   const [friendCount, setFriendCount] = useState(0);
   const [showCount, setShowCount] = useState(false);
+  const [searchText, setSearchText] = useState("We'll Find Five Friends You'll Build a Connection With!");
+
 
   const friends = [
     {
@@ -47,6 +49,19 @@ const OnboardingPage5 = () => {
       name: "OnDeck02",
     },
   ];
+
+  useEffect(() => {
+    if (friendCount === 5) {
+      const timer = setTimeout(() => {
+        setSearchText("Then, You'll see a conversation begin on your behalf based on you and your new friend's interests...");
+        setTimeout(() => {
+          router.push('/OnboardingPage6');
+        }, 6500);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+   }, [friendCount]);
+
 
   useEffect(() => {
     // Reset all animations
@@ -150,7 +165,7 @@ const OnboardingPage5 = () => {
             }
           ]}
         >
-          <BigYuSearching text="We'll Find Five Friends You'll Build a Connection With!" />
+          <BigYuSearching text={searchText} />
         </Animated.View>
   
         {/* Bottom bubble that fades in below image */}
@@ -162,7 +177,7 @@ const OnboardingPage5 = () => {
             }
           ]}
         >
-          <SearchingBubble />
+          <SearchingBubble stopAnimation={friendCount === 5} />
         </Animated.View>
   
         {showCount && (
@@ -175,7 +190,7 @@ const OnboardingPage5 = () => {
             ]}
           >
             <Text style={styles.countText}>
-              Found {friendCount}/5 friends so far
+              Found {friendCount}/5 Friends So Far...
             </Text>
           </Animated.View>
         )}
@@ -247,14 +262,14 @@ const styles = StyleSheet.create({
     marginTop: '99%',
   },
   countText: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: 'bold',
-    color: '#ddd',
+    color: '#aaa',
     marginBottom: 8,
   },
   countContainer: {
     position: 'absolute',
-    bottom: '32%', // Adjust this value to position between search bubble and friend list
+    bottom: '36%', // Adjust this value to position between search bubble and friend list
     width: '100%',
     alignItems: 'center',
   },

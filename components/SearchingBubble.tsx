@@ -1,10 +1,49 @@
-import React from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
+import React, { useRef, useEffect } from "react";
+import { View, StyleSheet, Text, Image, Animated } from "react-native";
 
-const SearchingBubble: React.FC = () => {
+interface SearchingBubbleProps {
+  stopAnimation?: boolean;
+}
+
+const SearchingBubble: React.FC<SearchingBubbleProps> = ({ stopAnimation }) => {
+  const bounceAnim = useRef(new Animated.Value(0)).current;
+  const animationRef = useRef<Animated.CompositeAnimation>();
+
+  useEffect(() => {
+    if (stopAnimation) {
+      animationRef.current?.stop();
+      bounceAnim.setValue(0);
+      return;
+    }
+
+    animationRef.current = Animated.loop(
+      Animated.sequence([
+        Animated.timing(bounceAnim, {
+          toValue: -6,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(bounceAnim, {
+          toValue: 0,
+          duration: 800,
+          useNativeDriver: true,
+        })
+      ])
+    );
+
+    animationRef.current.start();
+
+    return () => animationRef.current?.stop();
+  }, [stopAnimation]);
+
   return (
     <View style={styles.BubbleContainer}>
-      <Image source={require("../assets/images/magnifying_glass_emoji.png")} style={styles.MagnifyingGlass} />
+      <Animated.View style={{ transform: [{ translateY: bounceAnim }] }}>
+        <Image 
+          source={require("../assets/images/magnifying_glass_emoji.png")} 
+          style={styles.MagnifyingGlass} 
+        />
+      </Animated.View>
       <Text style={styles.BubbleText}>Searching...</Text>
     </View>
   );

@@ -24,31 +24,25 @@ const OnboardingFriendListAnimation: React.FC<AnimatedListProps> = ({
     const fadeAnims = useRef(friends.map(() => new Animated.Value(0))).current;
   
     useEffect(() => {
-      // Animate each friend one by one
-      const animateSequentially = async () => {
-        for (let i = 0; i < friends.length; i++) {
-          // Wait for the delay
-          await new Promise(resolve => setTimeout(resolve, i === 0 ? startDelay : itemDelay));
-          
-          // Trigger the counter increment
-          onFriendAppear?.();
+      const animateNext = (index: number) => {
+        if (index >= friends.length) return;
   
-          // Animate the friend appearance
-          Animated.timing(fadeAnims[i], {
-            toValue: 1,
-            duration: 500,
-            useNativeDriver: true,
-          }).start();
-        }
+        Animated.timing(fadeAnims[index], {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(({ finished }) => {
+          if (finished) {
+            onFriendAppear?.();
+            setTimeout(() => animateNext(index + 1), itemDelay);
+          }
+        });
       };
   
-      animateSequentially();
+      setTimeout(() => animateNext(0), startDelay);
   
-  
-      return () => {
-        fadeAnims.forEach(anim => anim.setValue(0));
-      };
-    }, [fadeAnims, startDelay, itemDelay, onFriendAppear]);
+      return () => fadeAnims.forEach(anim => anim.setValue(0));
+    }, []);
   
     return (
       <View style={styles.container}>
@@ -57,9 +51,7 @@ const OnboardingFriendListAnimation: React.FC<AnimatedListProps> = ({
             key={index}
             style={[
               styles.itemContainer,
-              {
-                opacity: fadeAnims[index]
-              }
+              { opacity: fadeAnims[index] }
             ]}
           >
             <FriendProfile
