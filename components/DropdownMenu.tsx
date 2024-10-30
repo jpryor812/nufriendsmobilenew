@@ -16,7 +16,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options, selectedValue, onSelect })
   const [visible, setVisible] = useState(false);
   const [dropdownTop, setDropdownTop] = useState(0);
   const [dropdownLeft, setDropdownLeft] = useState(0);
-  const buttonRef = useRef<View>(null);
+  const buttonRef = useRef<TouchableOpacity>(null);
 
   const toggleDropdown = () => {
     if (buttonRef.current) {
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     borderRadius: 10,
   },
-  item: {
+  item: { 
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderBottomWidth: 1,

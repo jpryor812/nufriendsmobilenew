@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Text, Animated, Platform, UIManager, Image } from 'react-native';
 import ProgressBar from '../components/ProgressBar';
 import BigYuOnboarding from '../components/BigYuOnboarding';
 import ChatBubble from '../components/ChatBubble'; 
 import BigYuSearching from '../components/BigYuSearching';
+import SearchingBubble from '../components/SearchingBubble';
+import OnboardingFriendListAnimation from '../components/OnboardingFriendListAnimation';
 import { Link } from 'expo-router';
 
 if (Platform.OS === 'android') {
@@ -19,6 +21,32 @@ const OnboardingPage5 = () => {
   const chatBubbleFadeAnim = useRef(new Animated.Value(0)).current;
   const bubbleFadeAnim = useRef(new Animated.Value(0)).current;
   const firstImageVisible = useRef(true);
+  const [showList, setShowList] = useState(false); // Define showList state
+  const [friendCount, setFriendCount] = useState(0);
+  const [showCount, setShowCount] = useState(false);
+
+  const friends = [
+    {
+      imageSource: require('../assets/images/profile_picture.jpg'),
+      name: "Jpp123",
+    },
+    {
+      imageSource: require('../assets/images/profile-800x800.png'),
+      name: "PChak55",
+    },
+    {
+      imageSource: require('../assets/images/profile2-500x500.png'),
+      name: "AlexD33",
+    },
+    {
+      imageSource: require('../assets/images/asian_girl_avatar.jpg'),
+      name: "Ajones01",
+    },
+    {
+      imageSource: require('../assets/images/profile3-500x500.png'),
+      name: "OnDeck02",
+    },
+  ];
 
   useEffect(() => {
     // Reset all animations
@@ -27,6 +55,7 @@ const OnboardingPage5 = () => {
     slideOutAnim.setValue(0);
     chatBubbleFadeAnim.setValue(0);
     bubbleFadeAnim.setValue(0);
+    setFriendCount(0);
 
     const timer = setTimeout(() => {
       // First animation: slide out
@@ -66,7 +95,13 @@ const OnboardingPage5 = () => {
                   useNativeDriver: true,
                 }),
               ]),
-            ]).start();
+            ]).start(() => {
+              setShowCount(true);
+              // Show the list after all animations complete
+              setTimeout(() => {
+                setShowList(true);
+              }, 1500); // Wait 1 second after bubbles appear
+            });
           }, 800);
         }
       });
@@ -80,6 +115,7 @@ const OnboardingPage5 = () => {
       slideOutAnim.setValue(0);
       chatBubbleFadeAnim.setValue(0);
       bubbleFadeAnim.setValue(0);
+      setFriendCount(0);
     };
   }, []);
 
@@ -126,14 +162,38 @@ const OnboardingPage5 = () => {
             }
           ]}
         >
-          <View style={styles.bubble}>
-            <Text style={styles.bubbleText}>Let's get started!</Text>
-          </View>
+          <SearchingBubble />
         </Animated.View>
+  
+        {showCount && (
+          <Animated.View
+            style={[
+              styles.countContainer,
+              {
+                opacity: bubbleFadeAnim, // Use same animation as search bubble
+              }
+            ]}
+          >
+            <Text style={styles.countText}>
+              Found {friendCount}/5 friends so far
+            </Text>
+          </Animated.View>
+        )}
+
+        {showList && (
+          <View style={styles.listContainer}>
+            <OnboardingFriendListAnimation 
+              friends={friends}
+              startDelay={0}
+              itemDelay={1200}
+              onFriendAppear={() => setFriendCount(prev => Math.min(prev + 1, 5))}
+            />
+          </View>
+        )}
       </View>
     </View>
   );
-};
+}; // <-- Closing brace and parenthesis for the component function
 
 const styles = StyleSheet.create({
   appContainer: {
@@ -152,7 +212,7 @@ const styles = StyleSheet.create({
   },
   animatedContainer: {
     position: 'absolute',
-    top: '8%', // Adjust this value as needed
+    top: '6%', // Adjust this value as needed
     width: '100%',
     alignItems: 'center',
   },
@@ -160,7 +220,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     alignItems: 'center',
-    bottom: '40%', 
+    bottom: '42%', 
   },
   bubble: {
     backgroundColor: '#6ECFFF',
@@ -178,6 +238,24 @@ const styles = StyleSheet.create({
     width: 160,
     height: 160,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  listContainer: {
+    flex: 1,
+    width: '60%',
+    alignItems: 'center',
+    marginTop: '99%',
+  },
+  countText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#ddd',
+    marginBottom: 8,
+  },
+  countContainer: {
+    position: 'absolute',
+    bottom: '32%', // Adjust this value to position between search bubble and friend list
+    width: '100%',
     alignItems: 'center',
   },
 });
