@@ -7,7 +7,9 @@ import { Link } from 'expo-router';
 const OnboardingPage6 = () => (
   <View style={styles.appContainer}>
     <ProgressBar progress={20} />
-    <BigYuOnboarding text="Here's How it Will Work..." />
+    <BigYuOnboarding text="You can just jump right in without worrying about the cold start" />
+    
+    {/* then type something in the text box and send the message, then after sending the message, router to the next page where we demonstrate using Yu */}
 
     <View style={styles.link_container}>
       <Link href="/OnboardingPage5" style={styles.link}>

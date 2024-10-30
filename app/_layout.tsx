@@ -15,7 +15,7 @@ export default function RootLayout() {
       options={{ headerShown: false }} />
       <Stack.Screen name="MessagingYu"
       options={{ headerShown: false }} />
-      <Stack.Screen name="ChatRoom"
+      <Stack.Screen name="ChatRoomYu"
       options={{ headerShown: false }} />
       <Stack.Screen name="OnboardingPage1"
       options={{ headerShown: false }} />

@@ -48,37 +48,37 @@ const MessagingYu = () => {
       ]);
     }, []);
   
-    const handleSendMessage = (text: string) => {
-        const newMessage = {
-          id: Date.now().toString(),
-          text,
-          isSent: true
-        };
-        setMessages(prev => [...prev, newMessage]);
-      };
-    
-      return (
-        <SafeAreaView style={styles.container}>
-          <FriendProfile 
-            imageSource={require('../assets/images/yu_progress_bar.png')}
-            name="Yu :)"
-          />
-          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <View style={{ flex: 1 }}>
-              <MessageContainer 
-                messages={messages}
-                style={{ marginBottom: inputHeight }}
-              />
-            </View>
-          </TouchableWithoutFeedback>
-          <InputContainer
-            onSendMessage={handleSendMessage}
-            onHeightChange={setInputHeight}
-          />
-          <FooterNavigation />
-        </SafeAreaView>
-      );
+ const handleSendMessage = (text: string) => {
+    const newMessage = {
+      id: Date.now().toString(),
+      text,
+      isSent: true
     };
+    setMessages(prev => [...prev, newMessage]);
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <FriendProfile 
+        imageSource={require('../assets/images/yu_progress_bar.png')}
+        name="Yu :)"
+      />
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={{ flex: 1 }}>
+          <MessageContainer 
+            messages={messages}
+            style={{ marginBottom: inputHeight }}
+          />
+        </View>
+      </TouchableWithoutFeedback>
+      <InputContainer
+        onSendMessage={handleSendMessage}
+        onHeightChange={setInputHeight}
+      />
+      <FooterNavigation />
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
