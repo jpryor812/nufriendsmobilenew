@@ -1,74 +1,59 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, Image, ImageSourcePropType } from 'react-native';
-
-const profileIcon = require('../assets/images/profile_picture.jpg');
-
-interface User {
-  avatar?: string | ImageSourcePropType;
-  initials: string;
-}
+import { View, Text, FlatList, StyleSheet, Image, ImageSourcePropType,  Pressable } from 'react-native';
+import { Link } from "expo-router";
 
 interface Message {
   id: string;
   userId: string;
   text: string;
   timestamp: string;
+  avatar: ImageSourcePropType
 }
-
-const users: { [key: string]: User } = {
-  'Jpp123': {
-    avatar: require('../assets/images/profile_picture.jpg'),
-    initials: 'JP'
-  }
-};
 
 const messages: Message[] = [
-  { id: '1', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
-  { id: '2', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
-  { id: '3', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
-  { id: '4', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
-  { id: '5', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
-  { id: '6', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
-  { id: '7', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
-  { id: '8', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
-  { id: '9', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm" },
+  { id: '1', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile_picture.jpg') },
+  { id: '2', userId: 'App123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile_icon.png') },
+  { id: '3', userId: 'Dpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile-800x800.png') },
+  { id: '4', userId: 'Cpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile2-500x500.png') },
+  { id: '5', userId: 'Vpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile3-500x500.png') },
+  { id: '6', userId: 'Hpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile_picture.jpg') },
+  { id: '7', userId: 'Tpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile_picture.jpg') },
+  { id: '8', userId: 'Qpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile_picture.jpg') },
+  { id: '9', userId: 'Wpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile_picture.jpg') },
 ];
-
-interface AvatarProps {
-  userId: string;
-}
-
-const Avatar: React.FC<AvatarProps> = ({ userId }) => {
-  const user = users[userId];
-  return (
-    <View style={styles.avatarContainer}>
-      {user.avatar ? (
-        <Image 
-          source={typeof user.avatar === 'string' ? { uri: user.avatar } : user.avatar} 
-          style={styles.avatarImage} 
-        />
-      ) : (
-        <Text style={styles.avatarText}>{user.initials}</Text>
-      )}
-    </View>
-  );
-};
 
 interface MessageItemProps {
   item: Message;
 }
 
 const MessageItem: React.FC<MessageItemProps> = ({ item }) => (
-  <View style={styles.messageContainer}>
-    <Avatar userId={item.userId} />
-    <View style={styles.textContainer}>
-      <Text style={styles.username}>{item.userId}</Text>
-      <Text style={styles.messageText} numberOfLines={2} ellipsizeMode="tail">
-        {item.text}
-      </Text>
-    </View>
-    <Text style={styles.timestamp}>{item.timestamp}</Text>
-  </View>
+  <Link 
+    href={{
+      pathname: "/ChatRoomFriend",
+      params: { 
+        userId: item.userId,
+        username: item.userId,
+        avatar: JSON.stringify(item.avatar)
+      }
+    }} 
+    asChild
+  >
+    <Pressable style={styles.messageContainer}>
+      <View style={styles.avatarContainer}>
+        <Image 
+          source={item.avatar}
+          style={styles.avatarImage} 
+        />
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.username}>{item.userId}</Text>
+        <Text style={styles.messageText} numberOfLines={2} ellipsizeMode="tail">
+          {item.text}
+        </Text>
+      </View>
+      <Text style={styles.timestamp}>{item.timestamp}</Text>
+    </Pressable>
+  </Link>
 );
 
 const MessageList: React.FC = () => (

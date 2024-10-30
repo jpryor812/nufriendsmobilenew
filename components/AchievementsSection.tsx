@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
       padding: 10,
       borderRadius: 10,
       flexDirection: 'row',
-      alignItems: 'center', // Centers the line vertically
-      gap: 6, // Reduced gap since we're adding lines
+      alignItems: 'center', 
+      gap: 6, 
       marginLeft: '12%',
     },
     header: {

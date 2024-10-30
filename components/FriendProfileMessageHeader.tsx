@@ -50,14 +50,16 @@ const styles = StyleSheet.create({
     marginRight: 38,
   },
   profilePicture: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 25,
+    marginRight: 3,
   },
   profileNameText: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#333333',
+    marginLeft: 3,
   },
 });
 
