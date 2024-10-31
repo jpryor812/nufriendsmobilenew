@@ -2,15 +2,15 @@ import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 import AchievementContainer from './AchievementContainer';
 
-interface MutualFriendAchievementProps {
-  friends: number;
-  handCount: number;
+interface ReferFriendAchievementProps {
+  referals: number;
+  WavingHand: number;
   isLocked: boolean;
 }
 
-const MutualFriendAchievement: React.FC<MutualFriendAchievementProps> = ({ friends, handCount, isLocked }) => {
-  const renderWavingHands = () => {
-    return Array(handCount).fill(null).map((_, index) => {
+const ReferFriendAchievement: React.FC<ReferFriendAchievementProps> = ({ referals, WavingHand, isLocked }) => {
+  const renderWavingHand = () => {
+    return Array(WavingHand).fill(null).map((_, index) => {
       const imagePath = '../assets/images/hand_progress_bar.png';
       return (
         <Image 
@@ -27,18 +27,18 @@ const MutualFriendAchievement: React.FC<MutualFriendAchievementProps> = ({ frien
 
   return (
     <AchievementContainer isLocked={isLocked}>
-      <View style={styles.wavingHandContainer}>
-        {renderWavingHands()}
+      <View style={styles.YuContainer}>
+        {renderWavingHand()}
       </View>
       <Text style={styles.achievementText}>
-        {friends} Mutual Friends
+        Refer {referals} Friends to nufriends
       </Text>
     </AchievementContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  wavingHandContainer: {
+  YuContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MutualFriendAchievement;
+export default ReferFriendAchievement;

@@ -2,23 +2,23 @@ import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 import AchievementContainer from './AchievementContainer';
 
-interface MutualFriendAchievementProps {
-  friends: number;
-  handCount: number;
+interface WeeklyMessagesAchievementProps {
+  Messages: number;
+  mailCount: number;
   isLocked: boolean;
 }
 
-const MutualFriendAchievement: React.FC<MutualFriendAchievementProps> = ({ friends, handCount, isLocked }) => {
-  const renderWavingHands = () => {
-    return Array(handCount).fill(null).map((_, index) => {
-      const imagePath = '../assets/images/hand_progress_bar.png';
+const WeeklyMessagesAchievement: React.FC<WeeklyMessagesAchievementProps> = ({ Messages, mailCount, isLocked }) => {
+  const rendermailCount = () => {
+    return Array(mailCount).fill(null).map((_, index) => {
+      const imagePath = '../assets/images/mail_emoji.png';
       return (
         <Image 
           key={index}
           source={require(imagePath)}
           style={[
-            styles.wavingHandEmoji,
-            index > 0 && styles.overlappingWavingHand
+            styles.mailEmoji,
+            index > 0 && styles.overlappingMailEmoji
           ]}
         />
       );
@@ -27,29 +27,29 @@ const MutualFriendAchievement: React.FC<MutualFriendAchievementProps> = ({ frien
 
   return (
     <AchievementContainer isLocked={isLocked}>
-      <View style={styles.wavingHandContainer}>
-        {renderWavingHands()}
+      <View style={styles.mailCountContainer}>
+        {rendermailCount()}
       </View>
       <Text style={styles.achievementText}>
-        {friends} Mutual Friends
+        {Messages} Messages Sent in a Week
       </Text>
     </AchievementContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  wavingHandContainer: {
+  mailCountContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: -8, // Helps center the overlapping emojis
   },
-  wavingHandEmoji: {
-    width: 30,
-    height: 30,
+  mailEmoji: {
+    width: 34,
+    height: 17,
     marginBottom: 4,
   },
-  overlappingWavingHand: {
+  overlappingMailEmoji: {
     marginLeft: -10, // This creates the overlap effect
   },
   achievementText: {
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MutualFriendAchievement;
+export default WeeklyMessagesAchievement;

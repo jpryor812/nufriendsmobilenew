@@ -2,16 +2,16 @@ import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 import AchievementContainer from './AchievementContainer';
 
-interface MutualFriendAchievementProps {
-  friends: number;
-  handCount: number;
+interface YuUseAchievementProps {
+  requests: number;
+  YuCount: number;
   isLocked: boolean;
 }
 
-const MutualFriendAchievement: React.FC<MutualFriendAchievementProps> = ({ friends, handCount, isLocked }) => {
-  const renderWavingHands = () => {
-    return Array(handCount).fill(null).map((_, index) => {
-      const imagePath = '../assets/images/hand_progress_bar.png';
+const YuUseAchievement: React.FC<YuUseAchievementProps> = ({ requests, YuCount, isLocked }) => {
+  const renderYu = () => {
+    return Array(YuCount).fill(null).map((_, index) => {
+      const imagePath = '../assets/images/Yu_excited_no_speech.png';
       return (
         <Image 
           key={index}
@@ -27,18 +27,18 @@ const MutualFriendAchievement: React.FC<MutualFriendAchievementProps> = ({ frien
 
   return (
     <AchievementContainer isLocked={isLocked}>
-      <View style={styles.wavingHandContainer}>
-        {renderWavingHands()}
+      <View style={styles.YuContainer}>
+        {renderYu()}
       </View>
       <Text style={styles.achievementText}>
-        {friends} Mutual Friends
+        Use Yu {requests} Times
       </Text>
     </AchievementContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  wavingHandContainer: {
+  YuContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MutualFriendAchievement;
+export default YuUseAchievement;

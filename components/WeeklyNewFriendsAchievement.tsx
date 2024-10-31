@@ -2,23 +2,23 @@ import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 import AchievementContainer from './AchievementContainer';
 
-interface MutualFriendAchievementProps {
-  friends: number;
-  handCount: number;
+interface WeeklyNewFriendsAchievementProps {
+  Friends: number;
+  shakeCount: number;
   isLocked: boolean;
 }
 
-const MutualFriendAchievement: React.FC<MutualFriendAchievementProps> = ({ friends, handCount, isLocked }) => {
-  const renderWavingHands = () => {
-    return Array(handCount).fill(null).map((_, index) => {
-      const imagePath = '../assets/images/hand_progress_bar.png';
+const WeeklyNewFriendsAchievement: React.FC<WeeklyNewFriendsAchievementProps> = ({ Friends, shakeCount, isLocked }) => {
+  const rendershakeCount = () => {
+    return Array(shakeCount).fill(null).map((_, index) => {
+      const imagePath = '../assets/images/handshake.png';
       return (
         <Image 
           key={index}
           source={require(imagePath)}
           style={[
-            styles.wavingHandEmoji,
-            index > 0 && styles.overlappingWavingHand
+            styles.shakeEmoji,
+            index > 0 && styles.overlappingShakeEmoji
           ]}
         />
       );
@@ -27,29 +27,29 @@ const MutualFriendAchievement: React.FC<MutualFriendAchievementProps> = ({ frien
 
   return (
     <AchievementContainer isLocked={isLocked}>
-      <View style={styles.wavingHandContainer}>
-        {renderWavingHands()}
+      <View style={styles.shakeCountContainer}>
+        {rendershakeCount()}
       </View>
       <Text style={styles.achievementText}>
-        {friends} Mutual Friends
+        {Friends} New Friends in a Week
       </Text>
     </AchievementContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  wavingHandContainer: {
+  shakeCountContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: -8, // Helps center the overlapping emojis
   },
-  wavingHandEmoji: {
+  shakeEmoji: {
     width: 30,
-    height: 30,
+    height: 25,
     marginBottom: 4,
   },
-  overlappingWavingHand: {
+  overlappingShakeEmoji: {
     marginLeft: -10, // This creates the overlap effect
   },
   achievementText: {
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MutualFriendAchievement;
+export default WeeklyNewFriendsAchievement;
