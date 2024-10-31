@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, Image, ImageSourcePropType,  Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, FlatList, StyleSheet, Image, ImageSourcePropType, Pressable } from 'react-native';
 import { Link } from "expo-router";
 
 interface Message {
@@ -10,62 +10,131 @@ interface Message {
   avatar: ImageSourcePropType
 }
 
+const parseTimestamp = (timestamp: string): Date => {
+  const today = new Date();
+  const [time, period] = timestamp.split(' ');
+  const [hours, minutes] = time.split(':');
+  
+  let hour = parseInt(hours);
+  if (period.toLowerCase() === 'pm' && hour !== 12) {
+    hour += 12;
+  } else if (period.toLowerCase() === 'am' && hour === 12) {
+    hour = 0;
+  }
+  
+  today.setHours(hour, parseInt(minutes), 0);
+  return today;
+};
+
 const messages: Message[] = [
-  { id: '1', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile_picture.jpg') },
-  { id: '2', userId: 'App123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile_icon.png') },
-  { id: '3', userId: 'Dpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile-800x800.png') },
-  { id: '4', userId: 'Cpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile2-500x500.png') },
-  { id: '5', userId: 'Vpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile3-500x500.png') },
-  { id: '6', userId: 'Hpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile_picture.jpg') },
-  { id: '7', userId: 'Tpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile_picture.jpg') },
-  { id: '8', userId: 'Qpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile_picture.jpg') },
-  { id: '9', userId: 'Wpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile_picture.jpg') },
+  { id: '1', userId: 'Jpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "6:45 pm", avatar: require('../assets/images/profile_picture.jpg') },
+  { id: '2', userId: 'AlexD33', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "5:45 pm", avatar: require('../assets/images/profile_icon.png') },
+  { id: '3', userId: 'PChak55', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "4:45 pm", avatar: require('../assets/images/profile-800x800.png') },
+  { id: '4', userId: 'OnDeck02', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "3:45 pm", avatar: require('../assets/images/profile2-500x500.png') },
+  { id: '5', userId: 'AJones01', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "11:45 am", avatar: require('../assets/images/profile3-500x500.png') },
+  { id: '6', userId: 'Hpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "10:45 am", avatar: require('../assets/images/profile_picture.jpg') },
+  { id: '7', userId: 'Tpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "9:45 am", avatar: require('../assets/images/profile_picture.jpg') },
+  { id: '8', userId: 'Qpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "8:45 am", avatar: require('../assets/images/profile_picture.jpg') },
+  { id: '9', userId: 'Wpp123', text: "Yeah I really like dinosaurs. My favorite is a velociraptor but I also really like Ankylosaurus and Triceratops", timestamp: "9:35 am", avatar: require('../assets/images/profile_picture.jpg') },
 ];
 
 interface MessageItemProps {
   item: Message;
+  isRead: boolean;
+  onMessageClick: (messageId: string) => void;
 }
 
-const MessageItem: React.FC<MessageItemProps> = ({ item }) => (
-  <Link 
-    href={{
-      pathname: "/ChatRoomFriend",
-      params: { 
-        userId: item.userId,
-        username: item.userId,
-        avatar: JSON.stringify(item.avatar)
-      }
-    }} 
-    asChild
-  >
-    <Pressable style={styles.messageContainer}>
-      <View style={styles.avatarContainer}>
-        <Image 
-          source={item.avatar}
-          style={styles.avatarImage} 
-        />
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.username}>{item.userId}</Text>
-        <Text style={styles.messageText} numberOfLines={2} ellipsizeMode="tail">
-          {item.text}
-        </Text>
-      </View>
-      <Text style={styles.timestamp}>{item.timestamp}</Text>
-    </Pressable>
-  </Link>
-);
+const MessageItem: React.FC<MessageItemProps> = ({ item, isRead, onMessageClick }) => {
+  const handlePress = () => {
+    onMessageClick(item.id);
+  };
 
-const MessageList: React.FC = () => (
-  <View style={styles.container}>
-    <Text style={styles.header}>Messages</Text>
-    <FlatList
-      data={messages}
-      renderItem={({ item }) => <MessageItem item={item} />}
-      keyExtractor={item => item.id}
-    />
-  </View>
-);
+  return (
+    <Link 
+      href={{
+        pathname: "/ChatRoomFriend",
+        params: { 
+          userId: item.userId,
+          username: item.userId,
+          avatar: JSON.stringify(item.avatar)
+        }
+      }} 
+      asChild
+    >
+      <Pressable 
+        style={styles.messageContainer}
+        onPress={handlePress}
+      >
+        <View style={styles.avatarContainer}>
+          <Image 
+            source={item.avatar}
+            style={styles.avatarImage} 
+          />
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={[styles.username, !isRead && styles.unreadText]}>
+            {item.userId}
+          </Text>
+          <Text 
+            style={[styles.messageText, !isRead && styles.unreadText]} 
+            numberOfLines={2} 
+            ellipsizeMode="tail"
+          >
+            {item.text}
+          </Text>
+        </View>
+        <Text style={[styles.timestamp, !isRead && styles.unreadText]}>
+          {item.timestamp}
+        </Text>
+      </Pressable>
+    </Link>
+  );
+};
+
+const MessageList: React.FC = () => {
+  const [readMessages, setReadMessages] = useState<Set<string>>(new Set());
+
+  const handleMessageClick = (messageId: string) => {
+    setReadMessages(prev => {
+      const newSet = new Set(prev);
+      newSet.add(messageId);
+      return newSet;
+    });
+  };
+
+  // Sort messages by read status first, then by timestamp
+  const sortedMessages = [...messages].sort((a, b) => {
+    const isARead = readMessages.has(a.id);
+    const isBRead = readMessages.has(b.id);
+    
+    // If read status is different, unread messages come first
+    if (isARead !== isBRead) {
+      return isARead ? 1 : -1;
+    }
+    
+    // If read status is the same, sort by timestamp
+    const dateA = parseTimestamp(a.timestamp);
+    const dateB = parseTimestamp(b.timestamp);
+    return dateB.getTime() - dateA.getTime();
+  });
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Messages</Text>
+      <FlatList
+        data={sortedMessages}
+        renderItem={({ item }) => (
+          <MessageItem 
+            item={item} 
+            isRead={readMessages.has(item.id)}
+            onMessageClick={handleMessageClick}
+          />
+        )}
+        keyExtractor={item => item.id}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -109,6 +178,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5,
     fontSize: 16,
+    color: '#333',
   },
   messageText: {
     color: '#333',
@@ -118,6 +188,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#999',
     alignSelf: 'flex-start',
+  },
+  unreadText: {
+    color: '#2196F3', // Blue color for unread messages
   },
 });
 

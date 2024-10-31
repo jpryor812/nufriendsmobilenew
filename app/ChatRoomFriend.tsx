@@ -51,17 +51,6 @@ useEffect(() => {
     setMessages((previousMessages: any[]) => GiftedChat.append(previousMessages, messages));
   }, []);
 
-  const MiniChatBubble: React.FC<{ text: string }> = ({ text }) => {
-    return (
-      <View style={styles.miniBubbleContainer}>
-        <View style={styles.miniBubble}>
-          <Text style={styles.miniBubbleText}>{text}</Text>
-        </View>
-        <View style={styles.miniBubbleArrow} />
-      </View>
-    );
-  };
-
   const renderInputToolbar = (props: any) => {
     return (
       <InputToolbar

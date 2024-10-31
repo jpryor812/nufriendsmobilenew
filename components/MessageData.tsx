@@ -49,5 +49,23 @@ export const messageData: MessageData[] = [
   { date: "2024-02-01", count: 39, dayOfWeek: "Thursday", weekNumber: 5 },
   { date: "2024-02-02", count: 102, dayOfWeek: "Friday", weekNumber: 5 },
   { date: "2024-02-03", count: 136, dayOfWeek: "Saturday", weekNumber: 5 },
-  { date: "2024-02-04", count: 111, dayOfWeek: "Sunday", weekNumber: 5 }
+  { date: "2024-02-04", count: 111, dayOfWeek: "Sunday", weekNumber: 5 },
+
+  // Week 6
+  { date: "2024-02-05", count: 43, dayOfWeek: "Monday", weekNumber: 6 },
+  { date: "2024-02-06", count: 31, dayOfWeek: "Tuesday", weekNumber: 6 },
+  { date: "2024-02-07", count: 52, dayOfWeek: "Wednesday", weekNumber: 6 },
+  { date: "2024-02-08", count: 68, dayOfWeek: "Thursday", weekNumber: 6 },
+  { date: "2024-02-09", count: 95, dayOfWeek: "Friday", weekNumber: 6 },
+  { date: "2024-02-10", count: 128, dayOfWeek: "Saturday", weekNumber: 6 },
+  { date: "2024-02-11", count: 142, dayOfWeek: "Sunday", weekNumber: 6 },
+
+  // Week 7
+  { date: "2024-02-12", count: 37, dayOfWeek: "Monday", weekNumber: 7 },
+  { date: "2024-02-13", count: 45, dayOfWeek: "Tuesday", weekNumber: 7 },
+  { date: "2024-02-14", count: 89, dayOfWeek: "Wednesday", weekNumber: 7 },
+  { date: "2024-02-15", count: 73, dayOfWeek: "Thursday", weekNumber: 7 },
+  { date: "2024-02-16", count: 112, dayOfWeek: "Friday", weekNumber: 7 },
+  { date: "2024-02-17", count: 133, dayOfWeek: "Saturday", weekNumber: 7 },
+  { date: "2024-02-18", count: 127, dayOfWeek: "Sunday", weekNumber: 7 }
 ];

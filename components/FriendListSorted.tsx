@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView, Image, ImageSourcePropType } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 interface FriendItemProps {
@@ -7,15 +7,20 @@ interface FriendItemProps {
   name: string;
   messages: number;
   hasStreak: boolean;
+  avatar: ImageSourcePropType;
 }
 
-const FriendItem: React.FC<FriendItemProps> = ({ initials, name, messages, hasStreak }) => (
+const FriendItem: React.FC<FriendItemProps> = ({ initials, name, messages, hasStreak, avatar }) => (
   <SafeAreaView style={styles.friendItem}>
     <View style={styles.avatarContainer}>
       {hasStreak && <Text style={styles.fireEmoji}>🔥</Text>}
-      <View style={styles.avatar}>
-        <Text style={styles.avatarText}>{initials}</Text>
-      </View>
+      {avatar ? (
+        <Image source={avatar} style={styles.avatarImage} />
+      ) : (
+        <View style={styles.avatar}>
+          <Text style={styles.avatarText}>{initials}</Text>
+        </View>
+      )}
     </View>
     <View style={styles.infoContainer}>
       <Text style={styles.name}>{name}</Text>
@@ -32,16 +37,103 @@ interface Friend {
   daysAsFriends: number;
   streak: number;
   mutualFriends: number;
+  avatar: ImageSourcePropType;
 }
 
 const FriendsList: React.FC = () => {
   const [sortOption, setSortOption] = useState<string>('messagesMost');
   const [friends, setFriends] = useState<Friend[]>([
-    { id: 1, initials: 'JP', name: 'Jpp123', messages: 1456, daysAsFriends: 120, streak: 5, mutualFriends: 10 },
-    { id: 2, initials: 'JP', name: 'Jpp123', messages: 964, daysAsFriends: 90, streak: 3, mutualFriends: 8 },
-    { id: 3, initials: 'JP', name: 'Jpp123', messages: 456, daysAsFriends: 60, streak: 0, mutualFriends: 5 },
-    { id: 4, initials: 'JP', name: 'Jpp123', messages: 356, daysAsFriends: 30, streak: 2, mutualFriends: 3 },
-    { id: 5, initials: 'JP', name: 'Jpp123', messages: 138, daysAsFriends: 15, streak: 1, mutualFriends: 2 },
+
+      { 
+          id: 1, 
+          initials: 'JP', 
+          name: 'Jpp123', 
+          messages: 1238, 
+          daysAsFriends: 156, 
+          streak: 7, 
+          mutualFriends: 12,
+          avatar: require('../assets/images/profile_picture.jpg')
+      },
+      { 
+          id: 2, 
+          initials: 'AD', 
+          name: 'AlexD33', 
+          messages: 876, 
+          daysAsFriends: 89, 
+          streak: 4, 
+          mutualFriends: 8,
+          avatar: require('../assets/images/profile_icon.png')
+      },
+      { 
+          id: 3, 
+          initials: 'PC', 
+          name: 'PChak55', 
+          messages: 654, 
+          daysAsFriends: 134, 
+          streak: 9, 
+          mutualFriends: 15,
+          avatar: require('../assets/images/profile-800x800.png')
+      },
+      { 
+          id: 4, 
+          initials: 'OD', 
+          name: 'OnDeck02', 
+          messages: 445, 
+          daysAsFriends: 67, 
+          streak: 3, 
+          mutualFriends: 6,
+          avatar: require('../assets/images/profile2-500x500.png')
+      },
+      { 
+          id: 5, 
+          initials: 'AJ', 
+          name: 'AJones01', 
+          messages: 789, 
+          daysAsFriends: 178, 
+          streak: 12, 
+          mutualFriends: 19,
+          avatar: require('../assets/images/profile3-500x500.png')
+      },
+      { 
+          id: 6, 
+          initials: 'HP', 
+          name: 'Hpp123', 
+          messages: 567, 
+          daysAsFriends: 45, 
+          streak: 5, 
+          mutualFriends: 7,
+          avatar: require('../assets/images/profile_picture.jpg')
+      },
+      { 
+          id: 7, 
+          initials: 'TP', 
+          name: 'Tpp123', 
+          messages: 234, 
+          daysAsFriends: 23, 
+          streak: 2, 
+          mutualFriends: 4,
+          avatar: require('../assets/images/profile_picture.jpg')
+      },
+      { 
+          id: 8, 
+          initials: 'QP', 
+          name: 'Qpp123', 
+          messages: 912, 
+          daysAsFriends: 198, 
+          streak: 15, 
+          mutualFriends: 21,
+          avatar: require('../assets/images/profile_picture.jpg')
+      },
+      { 
+          id: 9, 
+          initials: 'WP', 
+          name: 'Wpp123', 
+          messages: 345, 
+          daysAsFriends: 56, 
+          streak: 6, 
+          mutualFriends: 9,
+          avatar: require('../assets/images/profile_picture.jpg')
+      }
   ]);
 
   const sortFriends = (option: string) => {
@@ -99,6 +191,7 @@ const FriendsList: React.FC = () => {
             name={friend.name}
             messages={friend.messages}
             hasStreak={friend.streak > 0}
+            avatar={friend.avatar}
           />
         ))}
       </ScrollView>
@@ -141,6 +234,7 @@ const styles = StyleSheet.create({
     top: -5,
     left: -5,
     fontSize: 20,
+    zIndex: 1,
   },
   avatar: {
     width: 50,
@@ -149,6 +243,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#3498db',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  avatarImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
   },
   avatarText: {
     color: 'white',

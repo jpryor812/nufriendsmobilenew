@@ -5,45 +5,145 @@ import FooterNavigation from '../components/FooterNavigation';
 import HeaderButtons from '@/components/HeaderButtons';
 import { Link } from "expo-router";
 
-const profileIcon = require('../assets/images/profile_picture.jpg');
-
-interface FriendItemProps {
+interface Friend {
+  id: number;
   initials: string;
   name: string;
-  hasStreak: boolean;
-  primaryData: number;
+  messages: number;
+  daysAsFriends: number;
+  streak: number;
+  mutualFriends: number;
+  avatar: any; // Use ImageSourcePropType if you're using TypeScript strict mode
+}
+
+interface FriendItemProps {
+  friend: Friend;
   primaryLabel: string;
 }
 
-const FriendItem: React.FC<FriendItemProps> = ({ initials, name, hasStreak, primaryData, primaryLabel }) => (
-  
-  <SafeAreaView style={styles.friendItem}>
-    <View style={styles.avatarContainer}>
-      {hasStreak && <Text style={styles.fireEmoji}>🔥</Text>}
-      <View>
+const FriendItem: React.FC<FriendItemProps> = ({ friend, primaryLabel }) => {
+  const getPrimaryData = () => {
+    switch (primaryLabel) {
+      case 'messages': return friend.messages;
+      case 'days as friends': return friend.daysAsFriends;
+      case 'day streak': return friend.streak;
+      case 'mutual friends': return friend.mutualFriends;
+      default: return friend.messages;
+    }
+  };
+
+  return (
+    <SafeAreaView style={styles.friendItem}>
+      <View style={styles.avatarContainer}>
+        {friend.streak > 0 && <Text style={styles.fireEmoji}>🔥</Text>}
         <Image 
-          source={profileIcon}
+          source={friend.avatar}
           style={styles.avatarImage}
         />
       </View>
-    </View>
-    <View style={styles.infoContainer}>
-      <Text style={styles.name}>{name}</Text>
-      <Text style={styles.dataCount}>{primaryData} {primaryLabel}</Text>
-    </View>
-  </SafeAreaView>
-);
+      <View style={styles.infoContainer}>
+        <Text style={styles.name}>{friend.name}</Text>
+        <Text style={styles.dataCount}>{getPrimaryData()} {primaryLabel}</Text>
+      </View>
+    </SafeAreaView>
+  );
+};
 
 const FriendPage: React.FC = () => {
   const [sortOption, setSortOption] = useState('messagesMost');
   const [primaryDataLabel, setPrimaryDataLabel] = useState('messages');
-  const [friends, setFriends] = useState([
-    { id: 1, initials: 'JP', name: 'Jpp123', messages: 1456, daysAsFriends: 120, streak: 9, mutualFriends: 10 },
-    { id: 2, initials: 'JP', name: 'App123', messages: 964, daysAsFriends: 90, streak: 5, mutualFriends: 8 },
-    { id: 3, initials: 'JP', name: 'Bpp123', messages: 456, daysAsFriends: 60, streak: 0, mutualFriends: 5 },
-    { id: 4, initials: 'JP', name: 'Zpp123', messages: 356, daysAsFriends: 30, streak: 4, mutualFriends: 3 },
-    { id: 5, initials: 'JP', name: 'Xpp123', messages: 138, daysAsFriends: 15, streak: 2, mutualFriends: 2 },
-  ]);
+  const [friends, setFriends] = useState<Friend[]>([
+    { 
+      id: 1, 
+      initials: 'JP', 
+      name: 'Jpp123', 
+      messages: 1238, 
+      daysAsFriends: 156, 
+      streak: 7, 
+      mutualFriends: 12,
+      avatar: require('../assets/images/profile_picture.jpg')
+    },
+    { 
+        id: 2, 
+        initials: 'AD', 
+        name: 'AlexD33', 
+        messages: 876, 
+        daysAsFriends: 89, 
+        streak: 4, 
+        mutualFriends: 8,
+        avatar: require('../assets/images/profile_icon.png')
+    },
+    { 
+        id: 3, 
+        initials: 'PC', 
+        name: 'PChak55', 
+        messages: 654, 
+        daysAsFriends: 134, 
+        streak: 9, 
+        mutualFriends: 15,
+        avatar: require('../assets/images/profile-800x800.png')
+    },
+    { 
+        id: 4, 
+        initials: 'OD', 
+        name: 'OnDeck02', 
+        messages: 445, 
+        daysAsFriends: 67, 
+        streak: 3, 
+        mutualFriends: 6,
+        avatar: require('../assets/images/profile2-500x500.png')
+    },
+    { 
+        id: 5, 
+        initials: 'AJ', 
+        name: 'AJones01', 
+        messages: 789, 
+        daysAsFriends: 178, 
+        streak: 12, 
+        mutualFriends: 19,
+        avatar: require('../assets/images/profile3-500x500.png')
+    },
+    { 
+        id: 6, 
+        initials: 'HP', 
+        name: 'Hpp123', 
+        messages: 567, 
+        daysAsFriends: 45, 
+        streak: 0, 
+        mutualFriends: 7,
+        avatar: require('../assets/images/profile_picture.jpg')
+    },
+    { 
+        id: 7, 
+        initials: 'TP', 
+        name: 'Tpp123', 
+        messages: 234, 
+        daysAsFriends: 23, 
+        streak: 0, 
+        mutualFriends: 4,
+        avatar: require('../assets/images/profile_picture.jpg')
+    },
+    { 
+        id: 8, 
+        initials: 'QP', 
+        name: 'Qpp123', 
+        messages: 912, 
+        daysAsFriends: 198, 
+        streak: 15, 
+        mutualFriends: 21,
+        avatar: require('../assets/images/profile_picture.jpg')
+    },
+    { 
+        id: 9, 
+        initials: 'WP', 
+        name: 'Wpp123', 
+        messages: 345, 
+        daysAsFriends: 56, 
+        streak: 0, 
+        mutualFriends: 9,
+        avatar: require('../assets/images/profile_picture.jpg')
+    }
+]);
 
   const sortOptions = [
     { label: 'Messages (Most)', value: 'messagesMost' },
@@ -54,53 +154,66 @@ const FriendPage: React.FC = () => {
     { label: 'Mutual friends (Most)', value: 'mutualFriendsMost' },
     { label: 'Mutual friends (Least)', value: 'mutualFriendsLeast' },
     { label: 'Name (A-Z)', value: 'nameAZ' },       
-    { label: 'Name (Z-A)', value: 'nameZA' } 
-];
+    { label: 'Name (Z-A)', value: 'nameZA' }
+  ];
 
   const sortFriends = (option: string) => {
     let sortedFriends = [...friends];
-    let newPrimaryDataLabel = '';
+    let newPrimaryDataLabel = primaryDataLabel;
 
-    switch (option) {
-      case 'messagesMost':
-      case 'messagesLeast':
-        sortedFriends.sort((a, b) => option === 'messagesMost' ? b.messages - a.messages : a.messages - b.messages);
+    const sortConfig: { [key: string]: () => void } = {
+      messagesMost: () => {
+        sortedFriends.sort((a, b) => b.messages - a.messages);
         newPrimaryDataLabel = 'messages';
-        break;
-      case 'daysAsFriendsMost':
-      case 'daysAsFriendsLeast':
-        sortedFriends.sort((a, b) => option === 'daysAsFriendsMost' ? b.daysAsFriends - a.daysAsFriends : a.daysAsFriends - b.daysAsFriends);
+      },
+      messagesLeast: () => {
+        sortedFriends.sort((a, b) => a.messages - b.messages);
+        newPrimaryDataLabel = 'messages';
+      },
+      daysAsFriendsMost: () => {
+        sortedFriends.sort((a, b) => b.daysAsFriends - a.daysAsFriends);
         newPrimaryDataLabel = 'days as friends';
-        break;
-      case 'longestStreaks':
+      },
+      daysAsFriendsLeast: () => {
+        sortedFriends.sort((a, b) => a.daysAsFriends - b.daysAsFriends);
+        newPrimaryDataLabel = 'days as friends';
+      },
+      longestStreaks: () => {
         sortedFriends.sort((a, b) => b.streak - a.streak);
         newPrimaryDataLabel = 'day streak';
-        break;
-      case 'mutualFriendsMost':
-      case 'mutualFriendsLeast':
-        sortedFriends.sort((a, b) => option === 'mutualFriendsMost' ? b.mutualFriends - a.mutualFriends : a.mutualFriends - b.mutualFriends);
+      },
+      mutualFriendsMost: () => {
+        sortedFriends.sort((a, b) => b.mutualFriends - a.mutualFriends);
         newPrimaryDataLabel = 'mutual friends';
-        break;
-      case 'nameAZ':
-      case 'nameZA':
-        sortedFriends.sort((a, b) => {
-        const comparison = a.name.localeCompare(b.name);
-        return option === 'nameAZ' ? comparison : -comparison;});
-              newPrimaryDataLabel = primaryDataLabel; // Keep the current primary data label
-              break;  
-    }
+      },
+      mutualFriendsLeast: () => {
+        sortedFriends.sort((a, b) => a.mutualFriends - b.mutualFriends);
+        newPrimaryDataLabel = 'mutual friends';
+      },
+      nameAZ: () => {
+        sortedFriends.sort((a, b) => a.name.localeCompare(b.name));
+      },
+      nameZA: () => {
+        sortedFriends.sort((a, b) => b.name.localeCompare(a.name));
+      }
+    };
+
+    sortConfig[option]?.();
     setFriends(sortedFriends);
     setPrimaryDataLabel(newPrimaryDataLabel);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-        <HeaderButtons 
-          onPressFindFriends={() => console.log('Find Friends pressed')}
-          onPressUpgrade={() => console.log('Upgrade pressed')}
-        />
+      <HeaderButtons 
+        onPressFindFriends={() => console.log('Find Friends pressed')}
+        onPressUpgrade={() => console.log('Upgrade pressed')}
+      />
       <View style={styles.contentContainer}>
+        <View style={styles.titleContainer}>
         <Text style={styles.title}>Friends</Text>
+        <Image source={require('../assets/images/hand_progress_bar.png')} style={styles.titleImage} />
+        </View>
         <Dropdown
           options={sortOptions}
           selectedValue={sortOption}
@@ -113,13 +226,8 @@ const FriendPage: React.FC = () => {
           {friends.map((friend) => (
             <FriendItem
               key={friend.id}
-              initials={friend.initials}
-              name={friend.name}
-              primaryData={friend[primaryDataLabel === 'messages' ? 'messages' : 
-                     primaryDataLabel === 'days as friends' ? 'daysAsFriends' : 
-                     primaryDataLabel === 'day streak' ? 'streak' : 'mutualFriends']}
+              friend={friend}
               primaryLabel={primaryDataLabel}
-              hasStreak={friend.streak > 0}
             />
           ))}
         </ScrollView>
@@ -130,63 +238,89 @@ const FriendPage: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F0FCFE',
-  },
-  contentContainer: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    marginLeft: 10,
-    textAlign: 'center',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  friendItem: {
-    flexDirection: 'row',
-    alignContent: 'center',
-    justifyContent: 'center',
-    borderColor: '#F8FCFF',
-    borderBottomWidth: 3,
-    width: '92%',
-    alignSelf: 'center',
-  },
-  avatarContainer: {
-    position: 'relative',
-    marginRight: 10,
-    marginLeft: 4,
-    marginBottom: 12,
-    marginTop: 12,
-  },
-  fireEmoji: {
-    position: 'absolute',
-    top: -8,
-    left: -8,
-    fontSize: 20,
-    zIndex: 5,
-  },
-  avatarImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 25,
-  },
-  infoContainer: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  dataCount: {
-    fontSize: 14,
-    color: '#7f8c8d',
-  },
-});
-
+    container: {
+        flex: 1,
+        backgroundColor: '#F0FCFE',
+      },
+      contentContainer: {
+        flex: 1,
+      },
+        titleContainer: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+        },
+        titleImage: {
+            width: 30,
+            height: 30,
+            marginLeft: 10,
+        },
+      title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        marginLeft: 10,
+        textAlign: 'center',
+      },
+      scrollView: {
+        marginTop: 10,
+        flex: 1,
+        padding: 6,
+      },
+      friendItem: {
+        flexDirection: 'row',
+        alignItems: 'center',  // Changed from alignContent
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+        width: '92%',
+        alignSelf: 'center',
+        backgroundColor: 'white',
+        borderRadius: 30,
+        marginTop: 8,
+        marginBottom: 8,
+        // Replace border with shadow
+        borderWidth: 1, 
+        borderColor: '#909090',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+        elevation: 3,  // for Android
+    },
+      avatarContainer: {
+        position: 'relative',
+        marginRight: 10,
+        marginLeft: 6,
+        padding: 2,
+        backgroundColor: '#fafafa',
+        marginTop: 2,
+      },
+      fireEmoji: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        fontSize: 16,
+        zIndex: 5,
+      },
+      avatarImage: {
+        width: 46,
+        height: 46,
+        borderRadius: 25,
+      },
+      infoContainer: {
+        flex: 1,
+        justifyContent: 'center',
+      },
+      name: {
+        fontSize: 18,
+        fontWeight: 'bold',
+      },
+      dataCount: {
+        fontSize: 14,
+        color: '#606060',
+      },
+    });
+    
 export default FriendPage;

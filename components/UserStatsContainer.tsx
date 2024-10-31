@@ -1,13 +1,30 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { messageData } from './MessageData';
 
-//update messages sent this week number to update when the week in the chart changes
-const StatsBar = () => {
+interface StatsBarProps {
+  currentWeek: number;
+}
+
+const StatsBar: React.FC<StatsBarProps> = ({ currentWeek }) => {
+  // Format number with commas
+  const formatNumber = (num: number): string => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  // Calculate total messages
+  const totalMessages = messageData.reduce((sum, message) => sum + message.count, 0);
+
+  // Calculate messages in February
+  const februaryMessages = messageData
+    .filter(message => message.date.startsWith('2024-02'))
+    .reduce((sum, message) => sum + message.count, 0);
+
   const stats = [
     { number: '34', label: 'New Friends This Month' },
     { number: '139', label: 'Total Friends' },
-    { number: '422', label: 'Messages Sent This Week' },
-    { number: '1,698', label: 'Total Messages Sent' },
+    { number: formatNumber(februaryMessages), label: 'Messages Sent This Month' },
+    { number: formatNumber(totalMessages), label: 'Total Messages Sent' },
   ];
 
   return (
@@ -41,9 +58,9 @@ const styles = StyleSheet.create({
       width: 2,
       height: 2,
     },
-    shadowOpacity: 0.3, // Adjust the opacity for a lighter shadow
-    shadowRadius: 5, // Adjust the radius for a softer shadow
-    elevation: 3, // Add elevation for Android shadow
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 3,
   },
   statBlock: {
     alignItems: 'center',

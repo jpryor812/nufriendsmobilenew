@@ -71,14 +71,14 @@ export default function MessagesChart() {
     };
 
     const handleNextWeek = () => {
-        if (currentWeek < 5) {
+        if (currentWeek < 7) {
             setCurrentWeek(prev => prev + 1);
         }
     };
 
     // Calculate the Y position for the average line
     const getAverageLinePosition = () => {
-        const chartHeight = 200; // This should match your chart height
+        const chartHeight = 150; // This should match your chart height
         const maxValue = 150;    // This should match your chart maxValue
         return chartHeight - (weeklyAverage / maxValue * chartHeight);
     };
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
         color: '#808080',
     },
     title: {
-        fontSize: 12,
+        fontSize: 1,
         fontWeight: 'bold',
         color: '#808080',
     },
